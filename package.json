@@ -12,6 +12,8 @@
     "check": "biome check"
   },
   "dependencies": {
+    "@fontsource-variable/geist-mono": "^5.2.7",
+    "@radix-ui/react-slot": "^1.2.4",
     "@tailwindcss/vite": "^4.0.6",
     "@tanstack/react-devtools": "^0.7.0",
     "@tanstack/react-router": "^1.132.0",
@@ -25,6 +27,7 @@
     "nitro": "latest",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "recharts": "2.15.4",
     "tailwind-merge": "^3.0.2",
     "tailwindcss": "^4.0.6",
     "tw-animate-css": "^1.3.6",
