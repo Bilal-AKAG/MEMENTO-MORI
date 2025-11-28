@@ -4,7 +4,6 @@
 @custom-variant dark (&:is(.dark *));
 
 
-
 code {
   font-family:
     source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;

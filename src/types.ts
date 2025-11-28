@@ -1,7 +1,13 @@
 export interface LifeData {
   weeksLived: number;
   weeksTotal: number;
+  // Non-negative weeks remaining for display (0 if already surpassed)
   weeksRemaining: number;
+  // Signed weeks remaining: positive = weeks left, negative = weeks past the expectancy
+  weeksRemainingSigned: number;
+  // Non-negative weeks surpassed (0 if not surpassed)
+  weeksSurpassed: number;
+  // Percentage of the average expectancy lived (may be >100 to indicate surpassed average)
   percentageLived: number;
   yearsLived: number;
   daysLived: number;

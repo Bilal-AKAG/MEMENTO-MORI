@@ -9,6 +9,7 @@ import {
 } from "../lib/life-logic";
 import RetroCard from "../components/retro-card";
 import WeeksGrid from "../components/week-grid";
+import SearchableSelect from "../components/searchable-select";
 import StatsDashboard from "../components/status-dashboard";
 
 export const Route = createFileRoute("/moneto")({
@@ -101,13 +102,13 @@ function RouteComponent() {
     return () => clearTimeout(timer);
   }, [birthDate, selectedCountry]);
 
-  const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const country = COUNTRY_DATA.find((c) => c.code === e.target.value);
+  const handleCountryChange = (code: string) => {
+    const country = COUNTRY_DATA.find((c) => c.code === code);
     if (country) setSelectedCountry(country);
   };
 
   return (
-    <div className="min-h-screen bg-terminal-black p-4 md:p-8 font-mono selection:bg-terminal-red selection:text-white">
+    <div className="min-h-screen bg-terminal-black p-4 md:p-8 font-mono selection:bg-terminal-red selection:text-white ">
       <div className="max-w-6xl mx-auto space-y-8">
         {/* Hero / Header */}
         <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-neutral-800 pb-6">
@@ -157,29 +158,36 @@ function RouteComponent() {
                     Region (Life Expectancy)
                   </label>
                   <div className="relative">
-                    <select
+                    <SearchableSelect
+                      options={COUNTRY_DATA}
                       value={selectedCountry.code}
                       onChange={handleCountryChange}
-                      className="w-full bg-neutral-900 border border-neutral-700 text-white p-3 font-mono appearance-none focus:border-terminal-red focus:outline-none transition-colors"
-                    >
-                      {COUNTRY_DATA.map((c) => (
-                        <option key={c.code} value={c.code}>
-                          {c.name} ({c.expectancy} yrs)
-                        </option>
-                      ))}
-                    </select>
-                    <div className="absolute right-3 top-3 pointer-events-none text-neutral-500">
-                      ▼
-                    </div>
+                      placeholder="Search region or code"
+                      id="country-select"
+                    />
                   </div>
                 </div>
 
                 {lifeData && (
                   <div className="pt-6 mt-4 border-t border-dashed border-neutral-800 space-y-2">
                     <div className="flex justify-between text-sm">
-                      <span className="text-neutral-500">Status:</span>
-                      <span className="text-terminal-red animate-pulse">
-                        ALIVE
+                      <span className="text-neutral-500">
+                        Compared to expectancy:
+                      </span>
+                      <span className="text-white">
+                        {lifeData.weeksRemainingSigned > 0 ? (
+                          <span className="text-neutral-300">
+                            {Math.floor(lifeData.weeksRemainingSigned / 52)}{" "}
+                            years below average
+                          </span>
+                        ) : lifeData.weeksSurpassed > 0 ? (
+                          <span className="text-emerald-400">
+                            Exceeded average by{" "}
+                            {Math.floor(lifeData.weeksSurpassed / 52)} years
+                          </span>
+                        ) : (
+                          <span className="text-neutral-300">At average</span>
+                        )}
                       </span>
                     </div>
                     <div className="flex justify-between text-sm">
@@ -191,7 +199,10 @@ function RouteComponent() {
                     <div className="flex justify-between text-sm">
                       <span className="text-neutral-500">Percentage:</span>
                       <span className="text-white">
-                        {lifeData.percentageLived.toFixed(1)}% Complete
+                        {lifeData.percentageLived.toFixed(1)}%{" "}
+                        {lifeData.percentageLived > 100
+                          ? "(surpassed)"
+                          : "of avg"}
                       </span>
                     </div>
                   </div>
@@ -224,19 +235,31 @@ function RouteComponent() {
                       </p>
                     </div>
                     <div className="text-center group cursor-default">
-                      <p className="text-xs text-terminal-red mb-2 uppercase tracking-widest">
-                        Weeks Left
+                      <p
+                        className={`text-xs mb-2 uppercase tracking-widest ${lifeData.weeksRemainingSigned > 0 ? "text-terminal-red" : "text-neutral-400"}`}
+                      >
+                        {lifeData.weeksRemainingSigned > 0
+                          ? "Weeks Left"
+                          : "Weeks Past Avg"}
                       </p>
-                      <p className="text-3xl md:text-5xl font-bold text-terminal-red drop-shadow-[0_0_10px_rgba(255,42,42,0.5)]">
-                        {lifeData.weeksRemaining.toLocaleString()}
+                      <p
+                        className={`text-3xl md:text-5xl font-bold ${lifeData.weeksRemainingSigned > 0 ? "text-terminal-red drop-shadow-[0_0_10px_rgba(255,42,42,0.5)]" : "text-neutral-400"}`}
+                      >
+                        {lifeData.weeksRemainingSigned > 0
+                          ? lifeData.weeksRemaining.toLocaleString()
+                          : lifeData.weeksSurpassed.toLocaleString()}
                       </p>
                     </div>
                     <div className="text-center col-span-2 md:col-span-1 group cursor-default">
                       <p className="text-xs text-neutral-500 mb-2 uppercase tracking-widest">
-                        Days Left
+                        {lifeData.weeksRemainingSigned > 0
+                          ? "Days Left"
+                          : "Days Past Avg"}
                       </p>
                       <p className="text-3xl md:text-5xl font-bold text-neutral-700 group-hover:text-white transition-colors">
-                        {(lifeData.weeksRemaining * 7).toLocaleString()}
+                        {Math.abs(
+                          lifeData.weeksRemainingSigned * 7,
+                        ).toLocaleString()}
                       </p>
                     </div>
                   </div>
@@ -244,8 +267,16 @@ function RouteComponent() {
                   <div className="mt-12 w-full bg-neutral-900 h-1 relative overflow-hidden">
                     <div
                       className="absolute top-0 left-0 h-full bg-terminal-red shadow-[0_0_15px_rgba(255,42,42,0.8)]"
-                      style={{ width: `${lifeData.percentageLived}%` }}
+                      style={{
+                        width: `${Math.min(100, lifeData.percentageLived)}%`,
+                      }}
                     ></div>
+                    {lifeData.percentageLived > 100 && (
+                      <div className="absolute right-0 top-0 -translate-y-6 text-[11px] bg-neutral-800 text-emerald-400 px-2 py-1 rounded-md">
+                        Surpassed by{" "}
+                        {(lifeData.percentageLived - 100).toFixed(1)}%
+                      </div>
+                    )}
                   </div>
                   <div className="w-full flex justify-between text-[10px] text-neutral-600 mt-2 font-mono">
                     <span>BIRTH</span>
@@ -298,7 +329,10 @@ function RouteComponent() {
           <div className="flex flex-col items-start md:items-end text-xs text-neutral-700 font-mono">
             <p>DATA SOURCE: WHO 2023</p>
             <p>LOCALE: {selectedCountry.name}</p>
-            <p className="mt-2">REMEMBER THAT YOU MUST DIE.</p>
+            <p className="mt-2">
+              This visualization uses population averages — individual lifespans
+              vary.
+            </p>
           </div>
         </footer>
       </div>
