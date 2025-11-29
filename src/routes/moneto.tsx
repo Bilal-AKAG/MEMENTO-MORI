@@ -11,13 +11,14 @@ import RetroCard from "../components/retro-card";
 import WeeksGrid from "../components/week-grid";
 import SearchableSelect from "../components/searchable-select";
 import StatsDashboard from "../components/status-dashboard";
+import DatePicker from "../components/DatePicker";
 
 export const Route = createFileRoute("/moneto")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const [birthDate, setBirthDate] = useState<string>("");
+  const [birthDate, setBirthDate] = useState<Date | null>(null);
   const [selectedCountry, setSelectedCountry] = useState<CountryLifeExpectancy>(
     COUNTRY_DATA[0],
   );
@@ -41,7 +42,7 @@ function RouteComponent() {
       return;
     }
 
-    const date = new Date(birthDate);
+    const date = birthDate as Date;
 
     // Check for valid date format
     if (isNaN(date.getTime())) {
@@ -139,11 +140,9 @@ function RouteComponent() {
                   <label className="block text-xs uppercase tracking-widest text-neutral-500">
                     Date of Birth
                   </label>
-                  <input
-                    type="date"
-                    value={birthDate}
-                    onChange={(e) => setBirthDate(e.target.value)}
-                    className={`w-full bg-neutral-900 border ${errorMessage ? "border-terminal-red text-terminal-red" : "border-neutral-700 text-white"} p-3 font-mono focus:border-terminal-red focus:outline-none transition-colors`}
+                  <DatePicker
+                    birthDate={birthDate}
+                    setBirthDate={setBirthDate}
                   />
                   {errorMessage && (
                     <div className="text-[10px] leading-tight text-terminal-red font-bold mt-2 border-l-2 border-terminal-red pl-2 py-1 bg-terminal-red-dim/10 animate-pulse">

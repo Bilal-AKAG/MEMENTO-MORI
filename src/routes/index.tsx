@@ -1,344 +1,193 @@
-import { createFileRoute } from '@tanstack/react-router'
-import type React from "react"
+import { CyberCard } from "@/components/cyber-card";
+import RetroCard from "@/components/retro-card";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { Button } from "@/components/ui/button";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import {
+  Calendar,
+  Globe,
+  ArrowRight,
+  Skull,
+  Activity,
+  Hourglass,
+} from "lucide-react";
 
-import { useEffect, useState } from "react"
-import { Link } from '@tanstack/react-router'
-import { ArrowRight, Clock, Calendar, BarChart3, Hourglass } from "lucide-react"
-
-export const Route = createFileRoute('/')({
+export const Route = createFileRoute("/")({
   component: LandingPage,
-})
+});
 
+function LandingPage() {
+  const LANDING_ACCORDION_ITEMS = [
+    {
+      title: "THE PHILOSOPHY OF MEMENTO MORI",
+      content: ` "You could leave life right now. Let that determine what you do and say and think." — Marcus Aurelius.
 
-
-
- function LandingPage() {
-  const [timeLeft, setTimeLeft] = useState({
-    hours: 0,
-    minutes: 0,
-    seconds: 0,
-  })
-
-  // Animated counter for hero section - counts down from average remaining life
-  useEffect(() => {
-    const targetHours = 657000 // ~75 years in hours
-    let currentHours = targetHours
-
-    const interval = setInterval(() => {
-      currentHours -= 1
-      const hours = Math.floor(currentHours)
-      const minutes = Math.floor((currentHours % 1) * 60)
-      const seconds = Math.floor((((currentHours % 1) * 60) % 1) * 60)
-      setTimeLeft({ hours, minutes, seconds })
-    }, 1000)
-
-    setTimeLeft({
-      hours: targetHours,
-      minutes: 0,
-      seconds: 0,
-    })
-
-    return () => clearInterval(interval)
-  }, [])
-
+      Memento Mori is not about being morbid or fearful. It is a tool for radical clarity. By visualizing the finiteness of our time, we strip away the trivial and focus on the essential. It is the ancient practice of keeping death in mind to truly live.`,
+    },
+    {
+      title: "THE 4,000 WEEKS REALITY",
+      content:
+        "The average human life is absurdly short—roughly 4,000 weeks. It sounds like a lot, until you see it laid out on a single screen. We often live as if we have an infinite scroll of days. The grid proves otherwise. Every red square is a week spent; every grey square is an opportunity remaining.",
+    },
+    {
+      title: "URGENCY OVER ANXIETY",
+      content:
+        "Seneca wrote, 'It is not that we have a short time to live, but that we waste a lot of it.' This visualization is a mirror. If looking at it makes you uncomfortable, that is the point. Use that discomfort. Let it drive you to make the remaining squares count.",
+    },
+  ];
   return (
-    <div className="min-h-screen bg-[#0a0f0a] text-[#a3a3a3] font-mono">
-      {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 border-b border-[#1a2e1a] bg-[#0a0f0a]/90 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 py-4 flex justify-between items-center">
+    <div className="min-h-screen bg-[#050505] text-[#e5e5e5] selection:bg-red-900 selection:text-white flex flex-col">
+      {/* Landing Header */}
+      <nav className="border-b border-neutral-900 bg-[#050505]/80 backdrop-blur-md sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="w-3 h-3 bg-[#dc2626]"></span>
-            <span className="text-[#e5e5e5] font-bold tracking-wider">MEMENTO MORI</span>
+            <Skull className="w-5 h-5 text-neutral-400" />
+            <span className="font-mono font-bold tracking-tighter text-lg">
+              MEMENTO MORI
+            </span>
           </div>
-          <div className="flex items-center gap-6">
-            <a href="#features" className="text-sm hover:text-[#e5e5e5] transition-colors hidden md:block">
-              Features
-            </a>
-            <a href="#philosophy" className="text-sm hover:text-[#e5e5e5] transition-colors hidden md:block">
-              Philosophy
-            </a>
-            <Link
-              to="/moneto"
-              className="flex items-center gap-2 bg-[#dc2626] text-[#e5e5e5] px-4 py-2 text-sm font-semibold hover:bg-[#b91c1c] transition-colors"
-            >
-              Launch App
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
+          <button
+            onClick={() => {}}
+            className="text-xs font-mono uppercase tracking-widest hover:text-red-500 transition-colors"
+          >
+            [ Initialize System ]
+          </button>
         </div>
       </nav>
 
       {/* Hero Section */}
-      <section className="min-h-screen flex flex-col items-center justify-center px-4 md:px-8 pt-20 relative overflow-hidden">
-        {/* Background Grid */}
-        <div className="absolute inset-0 opacity-5">
-          <div
-            className="w-full h-full"
-            style={{
-              backgroundImage: `linear-gradient(#dc2626 1px, transparent 1px), linear-gradient(90deg, #dc2626 1px, transparent 1px)`,
-              backgroundSize: "50px 50px",
-            }}
-          />
+      <section className="relative pt-20 pb-18 md:pt-22 md:pb-28 px-6 overflow-hidden border-b border-neutral-900">
+        {/* Background Grid Effect */}
+        <div className="absolute inset-0 z-0 opacity-20 pointer-events-none">
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#1a1a1a_1px,transparent_1px),linear-gradient(to_bottom,#1a1a1a_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
         </div>
 
-        {/* Corner Decorations */}
-        <div className="absolute top-24 left-8 w-16 h-16 border-l-2 border-t-2 border-[#dc2626] opacity-50" />
-        <div className="absolute top-24 right-8 w-16 h-16 border-r-2 border-t-2 border-[#dc2626] opacity-50" />
-        <div className="absolute bottom-8 left-8 w-16 h-16 border-l-2 border-b-2 border-[#dc2626] opacity-50" />
-        <div className="absolute bottom-8 right-8 w-16 h-16 border-r-2 border-b-2 border-[#dc2626] opacity-50" />
+        <div className="max-w-4xl mx-auto text-center relative z-10 space-y-8">
+          <div className="inline-flex items-center gap-2 px-3 py-1  border border-dashed  border-red-900/30 bg-red-900/10 text-red-500 text-[10px] tracking-[0.2em] font-mono uppercase mb-4 animate-fade-in">
+            <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
+            You Thing you Have time ?
+          </div>
 
-        <div className="text-center relative z-10 max-w-4xl">
-          <p className="text-[#dc2626] text-sm tracking-[0.3em] mb-6">system.init(mortality_visualizer);</p>
-
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-[#e5e5e5] mb-6 leading-tight text-balance">
-            Remember That
-            <br />
-            <span className="text-[#dc2626]">You Must Die</span>
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-white leading-[0.9]">
+            YOUR LIFE <br />
+            <span className="text-transparent bg-clip-text bg-linear-to-b from-neutral-200 to-neutral-600">
+              IN WEEKS
+            </span>
           </h1>
 
-          <p className="text-lg md:text-xl text-[#525252] max-w-2xl mx-auto mb-12 text-pretty">
-            Quantifying the finite nature of existence. Visualize your life in weeks, understand where your time goes,
-            and make every moment count.
+          <p className="max-w-xl mx-auto text-neutral-400 text-lg md:text-xl leading-relaxed font-normal">
+            Quantifying the finite nature of existence. A statistical
+            visualization tool to inspire clarity, urgency, and purpose.
           </p>
 
-          {/* Live Counter */}
-          <div className="border border-[#1a2e1a] p-6 md:p-8 mb-12 inline-block relative">
-            <div className="absolute -top-3 left-4 bg-[#0a0f0a] px-2 text-xs text-[#dc2626] tracking-wider">
-              AVERAGE HUMAN LIFE REMAINING
-            </div>
-            <div className="flex items-center gap-4 md:gap-8 text-center">
-              <div>
-                <div className="text-3xl md:text-5xl font-bold text-[#e5e5e5]">{timeLeft.hours.toLocaleString()}</div>
-                <div className="text-xs text-[#525252] mt-1">HOURS</div>
-              </div>
-              <span className="text-2xl text-[#dc2626]">:</span>
-              <div>
-                <div className="text-3xl md:text-5xl font-bold text-[#e5e5e5]">
-                  {timeLeft.minutes.toString().padStart(2, "0")}
-                </div>
-                <div className="text-xs text-[#525252] mt-1">MINUTES</div>
-              </div>
-              <span className="text-2xl text-[#dc2626]">:</span>
-              <div>
-                <div className="text-3xl md:text-5xl font-bold text-[#e5e5e5]">
-                  {timeLeft.seconds.toString().padStart(2, "0")}
-                </div>
-                <div className="text-xs text-[#525252] mt-1">SECONDS</div>
-              </div>
-            </div>
-          </div>
-
-          <Link
-            to="/moneto"
-            className="inline-flex items-center gap-3 bg-[#dc2626] text-[#e5e5e5] px-8 py-4 text-lg font-semibold hover:bg-[#b91c1c] transition-colors group"
-          >
-            Calculate Your Time
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </Link>
-
-          <p className="text-xs text-[#525252] mt-6">No signup required. Your data stays in your browser.</p>
-        </div>
-
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce">
-          <span className="text-xs text-[#525252] tracking-wider">SCROLL</span>
-          <div className="w-px h-8 bg-linear-to-b from-[#dc2626] to-transparent" />
-        </div>
-      </section>
-
-      {/* Features Section */}
-      <section id="features" className="py-24 px-4 md:px-8 border-t border-[#1a2e1a]">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <p className="text-[#dc2626] text-sm tracking-[0.2em] mb-4">FEATURES</p>
-            <h2 className="text-3xl md:text-4xl font-bold text-[#e5e5e5] mb-4">Visualize Your Mortality</h2>
-            <p className="text-[#525252] max-w-xl mx-auto">
-              A complete toolkit for understanding and optimizing your finite existence.
+          <div className="pt-8">
+            <Button
+              size="lg"
+              onClick={() => {}}
+              className="group relative inline-flex items-center justify-center px-8 py-4 font-mono font-bold text-white transition-all duration-200 bg-neutral-900 border border-neutral-800 hover:border-red-600 hover:bg-red-900/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-600 focus:ring-offset-black"
+            >
+              <Link to="/moneto">
+                <span className="absolute inset-0 w-full h-full -mt-1 rounded-lg opacity-30 bg-linear-to-b from-transparent via-transparent to-black"></span>
+                <span className="relative flex items-center gap-3">
+                  INITIALIZE VISUALIZATION{" "}
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </span>
+              </Link>
+            </Button>
+            <p className="mt-4 text-[10px] text-neutral-600 font-mono uppercase tracking-widest">
+              No Sign Up Required • Local Storage Only
             </p>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <FeatureCard
-              icon={<Calendar className="w-6 h-6" />}
-              title="Life Clock"
-              description="See your weeks lived versus weeks remaining based on WHO life expectancy data."
-            />
-            <FeatureCard
-              icon={<BarChart3 className="w-6 h-6" />}
-              title="Time Distribution"
-              description="Understand how your remaining life breaks down across sleep, work, and quality time."
-            />
-            <FeatureCard
-              icon={<Clock className="w-6 h-6" />}
-              title="Visual Timeline"
-              description="Each square represents one week of your life. See your progress at a glance."
-            />
-            <FeatureCard
-              icon={<Hourglass className="w-6 h-6" />}
-              title="Consumption Analytics"
-              description="Detailed breakdown of hours and equivalent years spent on different activities."
-            />
-          </div>
         </div>
       </section>
 
-      {/* Preview Section */}
-      <section className="py-24 px-4 md:px-8 border-t border-[#1a2e1a] bg-[#080c08]">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <p className="text-[#dc2626] text-sm tracking-[0.2em] mb-4">INTERFACE PREVIEW</p>
-              <h2 className="text-3xl md:text-4xl font-bold text-[#e5e5e5] mb-6">
-                Data-Driven
-                <br />
-                Mortality Awareness
-              </h2>
-              <p className="text-[#525252] mb-8 leading-relaxed">
-                Our interface draws inspiration from terminal displays and mission control dashboards. Every metric is
-                calculated in real-time based on your birth date and regional life expectancy data from WHO 2023.
-              </p>
-              <ul className="space-y-4">
-                <PreviewFeature text="Real-time calculations as you age" />
-                <PreviewFeature text="Regional life expectancy from 15+ countries" />
-                <PreviewFeature text="Activity breakdown with hours and years" />
-                <PreviewFeature text="Week-by-week visual timeline" />
-              </ul>
-            </div>
-            <div className="border border-[#1a2e1a] p-4 relative">
-              <div className="absolute -top-2 -left-2 w-4 h-4 border-l-2 border-t-2 border-[#dc2626]" />
-              <div className="absolute -top-2 -right-2 w-4 h-4 border-r-2 border-t-2 border-[#dc2626]" />
-              <div className="absolute -bottom-2 -left-2 w-4 h-4 border-l-2 border-b-2 border-[#dc2626]" />
-              <div className="absolute -bottom-2 -right-2 w-4 h-4 border-r-2 border-b-2 border-[#dc2626]" />
-
-              {/* Mock Dashboard */}
-              <div className="bg-[#0a0f0a] p-6 space-y-4">
-                <div className="flex justify-between items-center text-xs">
-                  <span className="text-[#dc2626]">LIFE CLOCK</span>
-                  <span className="text-[#525252]">CALCULATION_COMPLETE</span>
-                </div>
-                <div className="grid grid-cols-3 gap-4 text-center py-8">
-                  <div>
-                    <div className="text-2xl md:text-3xl font-bold text-[#a3a3a3]">1,560</div>
-                    <div className="text-xs text-[#525252] mt-1">WEEKS LIVED</div>
-                  </div>
-                  <div>
-                    <div className="text-2xl md:text-3xl font-bold text-[#dc2626]">2,483</div>
-                    <div className="text-xs text-[#525252] mt-1">WEEKS LEFT</div>
-                  </div>
-                  <div>
-                    <div className="text-2xl md:text-3xl font-bold text-[#a3a3a3]">17,381</div>
-                    <div className="text-xs text-[#525252] mt-1">DAYS LEFT</div>
-                  </div>
-                </div>
-                <div className="h-2 bg-[#1a2e1a] relative">
-                  <div className="absolute left-0 top-0 h-full w-[38%] bg-[#dc2626]" />
-                </div>
-                <div className="flex justify-between text-xs text-[#525252]">
-                  <span>BIRTH</span>
-                  <span>EST. DEATH</span>
-                </div>
+      {/* Feature Preview Section */}
+      <section className="py-24 bg-neutral-950/50 border-b border-neutral-900">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="space-y-4 p-6 border border-neutral-800/50 bg-black hover:border-red-900/50 transition-colors group">
+              <div className="w-10 h-10 bg-neutral-900 flex items-center justify-center rounded-sm text-red-500 group-hover:text-red-400">
+                <Hourglass className="w-5 h-5" />
               </div>
+              <h3 className="text-xl font-bold text-white font-mono">
+                The Life Clock
+              </h3>
+              <p className="text-neutral-400 leading-relaxed text-sm">
+                Real-time calculation of your actuarial life expectancy. Watch
+                the weeks tick down in high-precision.
+              </p>
+            </div>
+
+            <div className="space-y-4 p-6 border border-neutral-800/50 bg-black hover:border-red-900/50 transition-colors group">
+              <div className="w-10 h-10 bg-neutral-900 flex items-center justify-center rounded-sm text-red-500 group-hover:text-red-400">
+                <Activity className="w-5 h-5" />
+              </div>
+              <h3 className="text-xl font-bold text-white font-mono">
+                Consumption Data
+              </h3>
+              <p className="text-neutral-400 leading-relaxed text-sm">
+                Analyze how much of your life is consumed by sleep, work, and
+                chores vs. the time that is truly yours.
+              </p>
+            </div>
+
+            <div className="space-y-4 p-6 border border-neutral-800/50 bg-black hover:border-red-900/50 transition-colors group">
+              <div className="w-10 h-10 bg-neutral-900 flex items-center justify-center rounded-sm text-red-500 group-hover:text-red-400">
+                <Skull className="w-5 h-5" />
+              </div>
+              <h3 className="text-xl font-bold text-white font-mono">
+                The Grid
+              </h3>
+              <p className="text-neutral-400 leading-relaxed text-sm">
+                4,000 weeks laid out in a single view. A powerful visual
+                meditation on mortality used by Stoics.
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Philosophy Section */}
-      <section id="philosophy" className="py-24 px-4 md:px-8 border-t border-[#1a2e1a]">
-        <div className="max-w-4xl mx-auto text-center">
-          <p className="text-[#dc2626] text-sm tracking-[0.2em] mb-4">PHILOSOPHY</p>
-          <h2 className="text-3xl md:text-4xl font-bold text-[#e5e5e5] mb-12">Ancient Wisdom, Modern Interface</h2>
-
-          <blockquote className="text-lg md:text-xl text-[#a3a3a3] italic mb-8 leading-relaxed">
-            "It is not that we have a short time to live, but that we waste a lot of it. Life is long enough, and a
-            sufficiently generous amount has been given to us for the highest achievements if it were all well
-            invested."
-          </blockquote>
-          <p className="text-[#525252] mb-16">— Seneca, On the Shortness of Life</p>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
-            <PhilosophyCard
-              number="01"
-              title="Awareness"
-              description="Acknowledging mortality isn't morbid—it's the first step to living intentionally."
-            />
-            <PhilosophyCard
-              number="02"
-              title="Perspective"
-              description="Seeing your life in weeks creates urgency and appreciation for the present."
-            />
-            <PhilosophyCard
-              number="03"
-              title="Action"
-              description="With limited time, every decision matters. Choose what truly fulfills you."
-            />
-          </div>
+      {/* Philosophy Section (Accordion) */}
+      <section className="py-24 px-6 max-w-3xl mx-auto w-full">
+        <div className="text-center mb-16 space-y-4">
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tighter uppercase">
+            Meaningful Thoughts
+          </h2>
+          <div className="h-1 w-20 bg-red-600 mx-auto"></div>
         </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-24 px-4 md:px-8 border-t border-[#1a2e1a] bg-[#080c08]">
-        <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-[#e5e5e5] mb-6">Begin Your Calculation</h2>
-          <p className="text-[#525252] mb-12 max-w-xl mx-auto">
-            Enter your birth date and see your life visualized in ways you&apos;ve never considered. The numbers
-            don&apos;t lie—but they can inspire.
-          </p>
-          <Link 
-            to="/moneto"
-            className="inline-flex items-center gap-3 bg-[#dc2626] text-[#e5e5e5] px-10 py-5 text-lg font-semibold hover:bg-[#b91c1c] transition-colors group"
-          >
-            Launch Mortality Visualizer
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </Link>
-        </div>
+        <CyberCard noPadding>
+          <Accordion type="single" collapsible className="w-full">
+            {LANDING_ACCORDION_ITEMS.map((item, index) => (
+              <AccordionItem
+                key={index}
+                value={`item-${index}`}
+                className="px-6"
+              >
+                <AccordionTrigger>{item.title}</AccordionTrigger>
+                <AccordionContent>{item.content}</AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </CyberCard>
       </section>
 
       {/* Footer */}
-      <footer className="py-12 px-4 md:px-8 border-t border-[#1a2e1a]">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 bg-[#dc2626]"></span>
-            <span className="text-[#525252] text-sm">MEMENTO MORI v.1</span>
+      <footer className="mt-auto py-12 border-t border-neutral-900 bg-black text-center">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col items-center gap-6">
+          <div className="text-[10px] text-neutral-600 font-mono uppercase tracking-[0.2em]">
+            Memento Mori Project // v1.0.0
           </div>
-          <p className="text-[#dc2626] text-sm tracking-wider font-semibold">REMEMBER THAT YOU MUST DIE.</p>
-          <p className="text-[#525252] text-xs">Data Source: WHO 2023</p>
+          <p className="text-neutral-500 text-sm max-w-md mx-auto">
+            "We have two lives, and the second begins when we realize we only
+            have one."
+          </p>
         </div>
       </footer>
     </div>
-  )
-}
-
-function FeatureCard({ icon, title, description }: { icon: React.ReactNode; title: string; description: string }) {
-  return (
-    <div className="border border-[#1a2e1a] p-6 hover:border-[#dc2626]/50 transition-colors group relative">
-      <div className="absolute top-0 left-0 w-2 h-2 border-l border-t border-[#dc2626] opacity-0 group-hover:opacity-100 transition-opacity" />
-      <div className="absolute top-0 right-0 w-2 h-2 border-r border-t border-[#dc2626] opacity-0 group-hover:opacity-100 transition-opacity" />
-      <div className="absolute bottom-0 left-0 w-2 h-2 border-l border-b border-[#dc2626] opacity-0 group-hover:opacity-100 transition-opacity" />
-      <div className="absolute bottom-0 right-0 w-2 h-2 border-r border-b border-[#dc2626] opacity-0 group-hover:opacity-100 transition-opacity" />
-
-      <div className="text-[#dc2626] mb-4">{icon}</div>
-      <h3 className="text-[#e5e5e5] font-semibold mb-2">{title}</h3>
-      <p className="text-[#525252] text-sm leading-relaxed">{description}</p>
-    </div>
-  )
-}
-
-function PreviewFeature({ text }: { text: string }) {
-  return (
-    <li className="flex items-center gap-3 text-[#a3a3a3]">
-      <span className="w-1.5 h-1.5 bg-[#dc2626]"></span>
-      {text}
-    </li>
-  )
-}
-
-function PhilosophyCard({ number, title, description }: { number: string; title: string; description: string }) {
-  return (
-    <div className="border-t border-[#1a2e1a] pt-6">
-      <span className="text-[#dc2626] text-sm">{number}</span>
-      <h3 className="text-[#e5e5e5] font-semibold text-xl mt-2 mb-3">{title}</h3>
-      <p className="text-[#525252] text-sm leading-relaxed">{description}</p>
-    </div>
-  )
+  );
 }
