@@ -1,5 +1,4 @@
 // Supports weights 100-900
-import "@fontsource-variable/geist-mono";
 import { HeadContent, Scripts, createRootRoute } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { TanStackDevtools } from "@tanstack/react-devtools";
