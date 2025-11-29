@@ -68,22 +68,23 @@ function LandingPage() {
 
   const formatTime = (date: Date | null) => {
     if (!date) return { hours: "--", minutes: "--", seconds: "--" };
-    
-    const timeString = date.toLocaleTimeString(undefined, {  // Your local timezone!
+
+    const timeString = date.toLocaleTimeString(undefined, {
+      // Your local timezone!
       hour: "2-digit",
-      minute: "2-digit", 
+      minute: "2-digit",
       second: "2-digit",
-      hour12: true  // ✅ 12-hour format (AM/PM)
+      hour12: true, // ✅ 12-hour format (AM/PM)
     });
-    
+
     // Split "10:19:45 AM" → ["10", "19", "45 AM"]
     const parts = timeString.split(" ");
     const [hours, minutes, seconds] = parts[0].split(":");
-    
+
     return {
       hours,
       minutes,
-      seconds: parts[1] || seconds  // Include AM/PM if you want
+      seconds: parts[1] || seconds, // Include AM/PM if you want
     };
   };
 
@@ -108,14 +109,12 @@ function LandingPage() {
             <span className="text-[#dc2626] animate-pulse">:</span>
             <span className="text-[#dc2626]">{time.seconds}</span>
           </div>
-          <div className="text-sm tracking-[0.2em] text-[#525252] mt-1">
-            
-          </div>
+          <div className="text-sm tracking-[0.2em] text-[#525252] mt-1"></div>
         </div>
       </div>
 
       {/* Hero Section */}
-      <section className="relative pt-10 pb-18 md:pt-7 md:pb-20 px-6 overflow-hidden ">
+      <section className="relative pt-20 pb-18 md:pt-7 md:pb-20 px-6 overflow-hidden ">
         {/* Background Grid Effect */}
         <div className="absolute inset-0 z-0 opacity-20 pointer-events-none">
           <div className="absolute inset-0 bg-[linear-gradient(to_right,#1a1a1a_1px,transparent_1px),linear-gradient(to_bottom,#1a1a1a_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
