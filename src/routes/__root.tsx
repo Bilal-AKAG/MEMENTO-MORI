@@ -1,9 +1,9 @@
 // Supports weights 100-900
-import '@fontsource-variable/geist-mono';
+import "@fontsource-variable/geist-mono";
 import { HeadContent, Scripts, createRootRoute } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { TanStackDevtools } from "@tanstack/react-devtools";
-
+import { Databuddy } from "@databuddy/sdk/react";
 import appCss from "../styles.css?url";
 import { cn } from "@/lib/utils";
 // Supports weights 100-900
@@ -40,6 +40,8 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       </head>
       <body className={cn("antialiased bg-terminal-black ")}>
         {children}
+
+        <Databuddy clientId="rhQX-ll5oxETW6wwdxhqa" enableBatching={true} />
         <TanStackDevtools
           config={{
             position: "bottom-right",
