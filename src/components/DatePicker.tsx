@@ -1,7 +1,7 @@
 "use client";
 
 import type { Dispatch, SetStateAction } from "react";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { format, setMonth, setYear } from "date-fns";
 import { CalendarIcon, ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -50,29 +50,36 @@ export function DatePicker({
   const [calendarMonth, setCalendarMonth] = useState<Date>(
     birthDate || new Date(2000, 0, 1),
   );
+  const [open, setOpen] = useState(false);
 
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
+  const months = useMemo(
+    () => [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ],
+    [],
+  );
 
-  const years = Array.from(
-    { length: new Date().getFullYear() - 1900 + 1 },
-    (_, i) => 1900 + i,
-  ).reverse();
+  const years = useMemo(() => {
+    const current = new Date().getFullYear();
+    return Array.from(
+      { length: current - 1900 + 1 },
+      (_, i) => 1900 + i,
+    ).reverse();
+  }, []);
 
   return (
-    <Popover>
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
           variant="outline"
@@ -172,7 +179,10 @@ export function DatePicker({
         <Calendar
           mode="single"
           selected={birthDate || undefined}
-          onSelect={(date) => setBirthDate(date || null)}
+          onSelect={(date) => {
+            setBirthDate(date || null);
+            setOpen(false);
+          }}
           month={calendarMonth}
           onMonthChange={setCalendarMonth}
           disabled={(date) =>
