@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import React, { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { ActivityStats, LifeData, CountryLifeExpectancy } from "../types";
 import {
   COUNTRY_DATA,
